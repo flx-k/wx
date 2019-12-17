@@ -1,13 +1,13 @@
 wx:
   APPID: wxc519bd2bc20412d3
   APPSECRET: f3ec125001bd0a16f8736a57988fb9b2
-  tocken: ashdyu3ERTD-sadfRET_asdq
+  tocken: ASDASDxcasdasd123ASD
 
   access_token_url: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
 
 
 server:
-  port: 80
+  port: 8908
   context-path: /weixin
 
 spring:

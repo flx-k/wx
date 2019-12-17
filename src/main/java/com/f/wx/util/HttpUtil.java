@@ -1,12 +1,21 @@
 package com.f.wx.util;
 
 import com.alibaba.fastjson.JSONObject;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class HttpUtil {
@@ -20,6 +29,31 @@ public class HttpUtil {
         JSONObject json = client.getForEntity(url, JSONObject.class).getBody();
         return json;
     }
+
+    public static Map request2Map(HttpServletRequest request) throws IOException {
+        SAXReader reader=new SAXReader();
+        Document document;
+        try {
+            Map<String,String> map=new HashMap<String, String>();
+            document = reader.read(request.getInputStream());
+            Element rootElm=document.getRootElement();
+            for(Iterator it = rootElm.elementIterator(); it.hasNext();){
+                Element e=(Element) it.next();
+                map.put(e.getName(), e.getText());
+            }
+            return map;
+        } catch (DocumentException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return null;
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            return null;
+        }
+    }
+
+
 
     public static void main(String[] args) {
 //        JSONObject postData = new JSONObject();
