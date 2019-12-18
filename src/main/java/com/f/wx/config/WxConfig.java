@@ -1,4 +1,4 @@
-package com.f.wx;
+package com.f.wx.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

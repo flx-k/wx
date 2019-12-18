@@ -32,7 +32,14 @@ public class WxService {
                 AccessTocken.refresh(jsonObject.getString("access_token"));
             }
         }
+    }
 
+    /**
+     * 网页授权
+     */
+    private void wxAuth_code(){
+        HttpUtil.get(access_token_url.replace("APPID",APPID)
+                    .replace("APPSECRET",APPSECRET));
     }
 
 
