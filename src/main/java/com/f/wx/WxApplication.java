@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @EnableAutoConfiguration
 public class WxApplication {
 
-	public static void main(String[] args) {
+	public static void main (String[] args) {
 		SpringApplication.run(WxApplication.class, args);
 	}
 

@@ -5,9 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-等等等等等等2
-<p th:text='${age}'></p>
-<p th:text='${job}'></p>
+<form action="/wx_login" method="post">
+    用户名 : <input type="text" name="username" id="username"/>
+    密码 : <input type="password" name="password"/>
+    <input type="submit" value="登录">
+</form>
 <input id="clientId" type="hidden" th:value="${clientId}" />
 <input id="qrcodeUrl" type="hidden" th:value="${qrcodeUrl}" />
 <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
@@ -32,20 +34,16 @@
 
   makeCode();
 
-var ws = new WebSocket("ws://192.168.1.234:8908/wx/websocket/"+document.getElementById("clientId").value);
+var ws = new WebSocket("ws://localhost:8908/wx/websocket/"+document.getElementById("clientId").value);
 ws.onopen = function (evt) {
     console.log("Connection open ...");
     ws.send("get_wx_user_url");
 };
 ws.onmessage = function (event) {
-        if (typeof event.data === String) {
-            console.log("Received data string");
-        }
-
-        if (event.data instanceof ArrayBuffer) {
-            var buffer = event.data;
-            console.log("Received arraybuffer");
-        }
+    var obj= JSON.parse(event.data);
+    if(obj.type==="wx_login"){
+        $('#username').attr("value",obj.code);
+    }
     console.log("Received Message: " + event.data);
 };
 ws.onclose = function (evt) {

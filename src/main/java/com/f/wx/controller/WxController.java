@@ -25,7 +25,11 @@ public class WxController {
                        @RequestParam(value = "state") String state,
                        @PathVariable("clientId") String clientId) {
         try {
-            Map map=wxService.get_user_info(code);
+//            Map map=wxService.get_user_info(code);
+            Map<String,String> map=new HashMap<>();
+            map.put("type","wx_login");
+            map.put("code",code);
+
             WebSocketService.sendInfo(new Gson().toJson(map),clientId);
         } catch (IOException e) {
             e.printStackTrace();

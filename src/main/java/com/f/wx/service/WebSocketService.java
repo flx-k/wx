@@ -1,11 +1,14 @@
 package com.f.wx.service;
 
+import com.google.gson.Gson;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint("/wx/websocket/{sid}")
@@ -29,7 +32,10 @@ public class WebSocketService {
         addOnlineCount();           //在线数加1
         this.sid=sid;
         try {
-            sendMessage("连接成功");
+            Map<String,String> map=new HashMap<>();
+            map.put("type","message");
+            map.put("data","连接成功");
+            sendMessage(new Gson().toJson(map));
         } catch (IOException e) {
         }
     }
@@ -51,7 +57,10 @@ public class WebSocketService {
     public void onMessage(String message, Session session) {
         //群发消息
         try {
-            sendMessage(message);
+            Map<String,String> map=new HashMap<>();
+            map.put("type","message");
+            map.put("data",message);
+            sendMessage(new Gson().toJson(map));
         } catch (IOException e) {
             e.printStackTrace();
         }
