@@ -4,8 +4,11 @@ wx:
   tocken: ASDASDxcasdasd123ASD
 
   access_token_url: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
+  web_access_token_url: https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=APPSECRET&code=CODE&grant_type=authorization_code
+  user_info_url: https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+  qrcode_url: https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
 
-
+  url_qrcode_userinfo: http://wx-f.nat300.top/login/_wx
 server:
   port: 8908
   context-path: /weixin

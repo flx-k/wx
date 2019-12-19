@@ -50,12 +50,10 @@ public class WebSocketService {
     @OnMessage
     public void onMessage(String message, Session session) {
         //群发消息
-        for (WebSocketService item : webSocketSet) {
-            try {
-                item.sendMessage(message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            sendMessage(message);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

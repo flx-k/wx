@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-等等等等等等
+等等等等等等2
+<p th:text='${age}'></p>
+<p th:text='${job}'></p>
+<input id="clientId" type="hidden" th:value="${clientId}" />
+<input id="qrcodeUrl" type="hidden" th:value="${qrcodeUrl}" />
+<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+
 </body>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="qrcode.min.js"></script>
+<script type="text/javascript">
+ var qrcode = new QRCode(document.getElementById("qrcode"), {
+      width : 200,
+      height : 200
+  });
+
+   function makeCode () {
+      var elText = document.getElementById("qrcodeUrl");
+      if (!elText.value) {
+          elText.focus();
+          return;
+      }
+      qrcode.makeCode(elText.value);
+  }
+
+  makeCode();
+
+var ws = new WebSocket("ws://192.168.1.234:8908/wx/websocket/"+document.getElementById("clientId").value);
+ws.onopen = function (evt) {
+    console.log("Connection open ...");
+    ws.send("get_wx_user_url");
+};
+ws.onmessage = function (event) {
+        if (typeof event.data === String) {
+            console.log("Received data string");
+        }
+
+        if (event.data instanceof ArrayBuffer) {
+            var buffer = event.data;
+            console.log("Received arraybuffer");
+        }
+    console.log("Received Message: " + event.data);
+};
+ws.onclose = function (evt) {
+    console.log("Connection closed.");
+};
+
+</script>
 </html>
