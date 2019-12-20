@@ -36,6 +36,8 @@ public class WxService {
     public String qrcode_url;
     @Value("${wx.url_qrcode_userinfo}")
     public String url_qrcode_userinfo;
+    @Value("${wx.server_host}")
+    public String server_host;
 
 
     public String getQrcodeUrl(String url) {

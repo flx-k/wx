@@ -18,11 +18,10 @@ public class PageController {
     @Autowired
     private WxService wxService;
     @RequestMapping(value = {"/index","/index.html","/"})
-    public String login(HashMap<String,Object> map, Model model){
-        model.addAttribute("text1", "hello world");
+    public String login(HashMap<String,Object> map){
         String clientId=StringUtil.buildId();
         map.put("clientId", clientId);
-        map.put("qrcodeUrl", wxService.getQrcodeUrl(wxService.url_qrcode_userinfo+"/"+clientId));
+        map.put("server_host",wxService.server_host);
         return "index.html";
     }
 }

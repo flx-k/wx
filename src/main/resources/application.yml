@@ -9,6 +9,7 @@ wx:
   qrcode_url: https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect
 
   url_qrcode_userinfo: http://wx-f.nat300.top/login/_wx
+  server_host: wx-f.nat300.top
 server:
   port: 8908
   context-path: /weixin

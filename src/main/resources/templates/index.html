@@ -5,15 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/wx_login" method="post">
-    用户名 : <input type="text" name="username" id="username"/>
-    密码 : <input type="password" name="password"/>
-    <input type="submit" value="登录">
+<div id="code_message">请扫描二维码</div>
+
+<form id="submit_code" style="visibility: hidden" action="/wx_login" method="post">
+     <input type="text" name="username" id="username"/>
+     <input type="password" name="password"/>
 </form>
 <input id="clientId" type="hidden" th:value="${clientId}" />
-<input id="qrcodeUrl" type="hidden" th:value="${qrcodeUrl}" />
-<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+<input id="server_host" type="hidden" th:value="${server_host}" />
 
+<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
 </body>
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="qrcode.min.js"></script>
@@ -23,18 +24,13 @@
       height : 200
   });
 
-   function makeCode () {
-      var elText = document.getElementById("qrcodeUrl");
-      if (!elText.value) {
-          elText.focus();
-          return;
-      }
-      qrcode.makeCode(elText.value);
+   function makeCode (url) {
+      qrcode.makeCode(url);
   }
 
-  makeCode();
+  makeCode("http://"+document.getElementById("server_host").value+"/login/_qrcode_used/"+document.getElementById("clientId").value);
 
-var ws = new WebSocket("ws://localhost:8908/wx/websocket/"+document.getElementById("clientId").value);
+var ws = new WebSocket("ws://"+document.getElementById("server_host").value+"/wx/websocket/"+document.getElementById("clientId").value);
 ws.onopen = function (evt) {
     console.log("Connection open ...");
     ws.send("get_wx_user_url");
@@ -43,6 +39,10 @@ ws.onmessage = function (event) {
     var obj= JSON.parse(event.data);
     if(obj.type==="wx_login"){
         $('#username').attr("value",obj.code);
+        $('#submit_code').submit();
+    }
+    else if(obj.type==="qrcode"){
+       $("#code_message").text(obj.data)
     }
     console.log("Received Message: " + event.data);
 };
